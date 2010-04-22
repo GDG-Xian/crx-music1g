@@ -1,0 +1,18 @@
+{
+	"name": "亦歌扩展",
+	"version": "1.0",
+	"description": "亦歌的Chrome插件，可以让您方便的通过Chrome收听亦歌的音乐",
+	"browser_action": {
+		"default_icon": "asset/icon32.png",
+		"popup": "popup.html"
+	},
+	"icons": {
+		"48": "asset/icon48.png",
+		"128": "asset/icon128.png"
+	},
+	"permissions": [
+		"tabs",
+		"http://*.1g1g.com/"
+	],
+	"background_page": "background_page.html"
+}

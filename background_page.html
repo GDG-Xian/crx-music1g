@@ -1,0 +1,162 @@
+
+
+<iframe id="fr-1g"></iframe>
+
+<script type="text/javascript">
+//	
+var BADGE_OFF_TEXT = 'off',
+	BADGE_ON_TEXT = 'on',
+	BADGE_BACKGROUND_COLOR = [255, 0, 0, 0];
+	TITLE_OFF_TEXT = '已关闭',
+	TITLE_ON_TEXT = '已开启',
+	
+	URL = 'http://www.1g1g.com';
+
+// 
+chrome.browserAction.setBadgeBackgroundColor({color: BADGE_BACKGROUND_COLOR});	
+
+var fr1g = document.getElementById('fr-1g'),
+	operation = false,
+	inBackground = true;
+
+off();
+
+
+
+// toggle
+function off(){
+	operation = false;
+	chrome.browserAction.setBadgeText({
+		text: '' //BADGE_OFF_TEXT
+	});
+	chrome.browserAction.setTitle({
+		title: '' //TITLE_OFF_TEXT
+	});
+	
+	if (tab1g != null) {
+		chrome.tabs.remove(tab1g);
+	}
+	else {
+		fr1g.setAttribute('onload', '');
+		fr1g.setAttribute('src', '');
+	}
+	
+}
+
+function on(){
+	operation = true;
+	chrome.browserAction.setBadgeText({
+		text: BADGE_ON_TEXT
+	});
+	chrome.browserAction.setTitle({
+		title: TITLE_ON_TEXT
+	});
+	
+	if (inBackground) {
+		fr1g.setAttribute('onload', 'loaded();');
+		fr1g.setAttribute('src', URL);
+	}
+	else {
+		fr1g.setAttribute('onload', '');
+		fr1g.setAttribute('src', '');
+	}
+}
+
+// listeners
+var loadedListeners = new Array();
+
+function addLoadedListener(fn){
+	loadedListeners.push(fn);
+}
+
+function fireLoadedEvent(e){
+	var ls = loadedListeners;
+	for (var i=0; i<ls.length; i++) {
+		if (typeof(ls[i]) == 'function') {
+			ls[i](e);
+		}
+	}
+}
+
+/*
+chrome.browserAction.onClicked.addListener(function(tab) {
+	console.log('clicked');
+});
+*/
+
+var loadSuccess = null;
+		
+function loaded() {
+	if (operation) {
+		loadSuccess = true;
+		fireLoadedEvent({
+			state: 'success'
+		});
+	}
+	//on();
+	
+	/* TODO: 读取错误的状态判定
+	if (fr1g.readystate == 'complete') {
+		loadSuccess = true;
+		fireLoadedEvent({state: 'success'});
+	}
+	else {
+		loadSuccess = false;
+		fireLoadedEvent({state: 'failure'});
+	}*/
+}	
+
+
+
+
+function reload(){
+	chrome.windows.getAll({},function(windows){
+		for (var i=0; i<windows.length; i++) {
+			var windowId = windows[i].id;
+			var wtabs = chrome.tabs.getAllInWindow(windowId, function(tabs){
+				for (var j=0; j<tabs.length; j++) {
+					var tab = tabs[j];
+					if (tab.url.match(/^http:\/\/www\.1g1g\.com.*/i)) {
+						chrome.tabs.executeScript(tab.id, {code: 'location.reload();'});
+					}
+				}
+			});
+		}
+	});
+	on();
+}
+
+var tab1g = null;
+
+chrome.tabs.onUpdated.addListener(function(id, info, tab){
+	if (info.url && info.url.match(/^http:\/\/www\.1g1g\.com.*/i)) {
+		if (tab1g == null){
+			inBackground = false;
+			on();
+			tab1g = tab.id;
+		}
+		else if (tab1g != tab.id){
+			chrome.tabs.remove(tab.id);
+		}
+	}
+	else if (info.url !== undefined){
+		if (tab1g === tab.id) {
+			inBackground = true;
+			off();
+			tab1g = null;
+		}
+	}
+	console.log(info.url);
+}); 
+
+chrome.tabs.onRemoved.addListener(function(tabId){
+	if (tabId === tab1g) {
+		inBackground = true;
+		off();
+		tab1g = null;
+	}
+});
+
+
+</script>
+
