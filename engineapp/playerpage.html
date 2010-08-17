@@ -1,0 +1,50 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<title>亦歌 for chrome extension</title>
+</head>
+<body style="margin:0;">
+<iframe src="http://www.1g1g.com/" width="100%" height="100%" frameborder="0"></iframe>
+
+<!-- 
+此页面用于中转1g commander的事件 
+<http://code.google.com/p/1g1g/wiki/1gcommander>
+
+chrome extension机制限制content_script只能于其他页面共享DOM层次的资源，
+<http://code.google.com/chrome/extensions/content_scripts.html#host-page-communication>
+player的监听器playerEventDispatcher接受的事件，
+将被转换为DOM节点eventbox的对应事件
+-->
+
+<embed width="0" height="0" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" allowscriptaccess="always" src="http://commander.1g1g.com/commander.swf" />
+
+<div id="eventbox" style="display:none;"></div>
+
+<script>
+var eventbox = document.getElementById('eventbox');
+
+var instanceEvent = document.createEvent('Event');
+instanceEvent.initEvent('playerEvent', true, true);
+
+/**
+ * 触发一个eventbox上的事件(对应于1g commander上的事件)
+ * @param {String} type 事件类型
+ * @param {String} body 
+ */
+function firePlayerEvent(type, body){
+	var data = {
+		"type": type,
+		"body": body
+	};
+	eventbox.innerText = JSON.stringify(data);
+	eventbox.dispatchEvent(instanceEvent);
+}
+
+/* 1g commander 监听接口 */
+function playerEventDispatcher(type, body){
+	firePlayerEvent(type, body);
+}
+
+</script>
+</body>
+</html>
