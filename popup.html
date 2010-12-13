@@ -1,112 +1,57 @@
-﻿<html>
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<title>亦歌 popup page</title>
-		
-		<style type="text/css">
-			body {margin:0; padding:0; width:250px; }
-			#navbar {height: 16px; padding:6px; color:#000; font-size:10px; position:relative;}
-			a.link {color: #6688dd; font-size:10px; }
-			#onBtn, #offBtn {color: #980010; font-size:10px; display:block; position:absolute; right:6px; top:6px; display:none;}
-			.hr {height:3px; border-bottom:1px solid #eee; margin-bottom:6px;}
-			#fr-bar {display:none;}
-			#detail {padding: 0 6px; font-size:10px; height:25px; color:#000;}
-		</style>
-	</head>
-	<body>
-		<div id="navbar">
-			<a href="http://www.1g1g.com" target="_blank" class="link">在页面中打开</a>
-			|
-			<a href="javascript:reload();" class="link">刷新</a>
-			
-			<a href="javascript:on();" id="onBtn">开启(on)</a>
-			<a href="javascript:off();" id="offBtn">关闭(off)</a>
-		</div>
-		<!--
-		<div class="hr"></div>
-		-->
-		<iframe id="fr-bar" src="http://public.1g1g.com/musicbar/circle-button/example.html" frameborder="0" width="250" height="35"></iframe>
-		<div id="detail"></div>
-		
-		<script type="text/javascript">
-			var bg = chrome.extension.getBackgroundPage();
-			
-			// toggle
-			var onButton = document.getElementById('onBtn'),
-				offButton = document.getElementById('offBtn');
-				
-			// 
-			var frBar = document.getElementById('fr-bar'),
-				detail = document.getElementById('detail');
-			
-			var LOADING_MSG = '加载数据中，请稍候...',
-				LOAD_FAILURE_MSG = '加载错误，请点击"刷新"重试!',
-				OFF_MSG = '请点击"开启(on)"或者在页面中打开亦歌收听音乐';
-			
-			bg.addLoadedListener(function(e){
-				if (e.state == 'success') {
-					detail.innerText = '';
-					detail.style.display = 'none';
-					frBar.style.display = 'block';
-				}
-				else {
-					detail.innerText = LOAD_FAILURE_MSG;
-					detail.style.display = 'block';
-				}
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<style>
+body {font:13px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; margin:1px 0 1px 0; }
+#setting a, div {width: 100px; height: 22px; line-height:22px; text-align:center; cursor:pointer; display:none;}
+div:hover {background: #e4f4fd; }
+#setting {display: block;}
+#setting a {display:block;}
+</style>
+</head>
+<body>
+<div id="on" onclick="window.close();">开启亦歌</div>
+<div id="closeIP" onclick="window.close();">隐藏歌词</div>
+<div id="openIP" onclick="window.close();">显示歌词</div>
+<div id="off" onclick="window.close();">关闭亦歌</div>
+<!--
+<div id="setting" onclick="window.close();"><a href="options_page.html" target="_blank">设置</a></div>
+-->
+<script>
+/* 根据当前status显示选项 */
+
+var onEle = document.getElementById('on');
+var closeIPEle = document.getElementById('closeIP');
+var openIPEle = document.getElementById('openIP');
+var offEle = document.getElementById('off');
+
+var bg = chrome.extension.getBackgroundPage();
+var status = bg.getStatus();
+switch (status) {
+	case 'off':
+		onEle.addEventListener('click', function(){
+			bg.on();
+		});
+		onEle.style.display = 'block';
+	break;
+	default:
+		offEle.addEventListener('click', function(){
+			bg.off();
+		});
+		offEle.style.display = 'block';
+		if (bg.infoPaneIsClose()) {
+			openIPEle.addEventListener('click', function(){
+				bg.showInfoPane();
 			});
-			
-			initState();
-			
-			function initState(){
-				if (bg.operation) {
-					onButton.style.display = 'none';
-					offButton.style.display = 'block';
-					if (bg.loadSuccess === true || bg.inBackground == false) {
-						frBar.style.display = 'block';
-						detail.style.display = 'none';
-					}
-					else 
-						if (bg.loadSuccess === false) {
-							detail.style.display = 'block';
-							detail.innerText = LOAD_FAILURE_MSG;
-						}
-						else {
-							detail.style.display = 'block';
-							detail.innerText = LOADING_MSG;
-						}
-				}
-				else {
-					frBar.style.display = 'none';
-					offButton.style.display = 'none';
-					onButton.style.display = 'block';
-					detail.style.display = 'block';
-					detail.innerText = OFF_MSG;
-				}
-			}
-			
-			
-			function on(){
-				bg.on();
-				initState();
-			}	
-			
-			function off(){
-				bg.off();
-				initState();
-			}
-			
-			function reload(){
-				if (bg.operation) {
-					
-					if (bg.inBackground) {
-						detail.style.display = 'block';
-						detail.innerText = LOADING_MSG;
-						frBar.style.display = 'none';
-					}
-					bg.reload();
-				//
-				}
-			}
-		</script>
-	</body>
+			openIPEle.style.display = 'block';
+		} else {
+			closeIPEle.addEventListener('click', function(){
+				bg.closeInfoPane();
+			});
+			closeIPEle.style.display = 'block';
+		}
+	break;
+}
+</script>
+</body>
 </html>
