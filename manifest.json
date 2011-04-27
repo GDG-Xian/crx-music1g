@@ -1,6 +1,6 @@
 {
 	"name": "亦歌扩展",
-	"version": "1.2",
+	"version": "1.2.1",
 	"description": "亦歌的Chrome插件，可以让您方便收听亦歌在线音乐",
 	"browser_action": {
 		"default_icon": "asset/icon32.png",
