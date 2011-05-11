@@ -1,6 +1,6 @@
 {
 	"name": "亦歌扩展",
-	"version": "1.4",
+	"version": "1.4.2",
 	"description": "亦歌的Chrome插件，轻轻松松用亦歌",
 	"browser_action": {
 		"default_icon": "img/icon32-blue.png",
