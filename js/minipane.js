@@ -1,6 +1,7 @@
 
 var player = chrome.extension.getBackgroundPage();
 var commander = player.commander;
+var currSongName;
 
 var container = document.id('container');
 var msgEl = document.id('msg');
@@ -30,6 +31,17 @@ var pause = play;
 var next = function(){
     commander.command('next');
 };
+// 加收藏
+var star = function() {
+    if (player.isOn()) {
+        msgEl.set('text', '收藏"' + currSongName + '"中...');
+        commander.command('saveCurrent');
+        setTimeout(function() {
+            msgEl.set('text', currSongName);
+        }, 2000);
+    }
+}
+
 // 转换时间为字符串
 var toTimeStr = function(time){
     var t = parseInt(time, 10);
@@ -52,6 +64,9 @@ pauseEl.addEvent('click', pause);
 
 var nextEl = document.id('next');
 nextEl.addEvent('click', next);
+
+var starEl = document.id('star');
+starEl.addEvent('click', star);
 
 var volumeThumbEl = document.id('volume-thumb');
 var volumeThumbDown = false;
@@ -113,6 +128,7 @@ commander.addEvents({
         } 
     },
     currentSongInfo: function(e){
+        currSongName = e.name;
         var str = e.name + ' - ' + e.singer;
         msgEl.set('text', str); 
     },

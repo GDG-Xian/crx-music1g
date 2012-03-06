@@ -98,7 +98,8 @@ body {font:13px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; 
 
 #play,
 #pause,
-#next {
+#next,
+#star {
     width: 16px;
     height: 16px;
     display: block;
@@ -110,7 +111,7 @@ body {font:13px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; 
 
 #play {
     background-position: 0 0;
-    left: 17px;
+    left: 8px;
     top: 10px;
 }
 
@@ -120,7 +121,7 @@ body {font:13px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; 
 
 #pause {
     background-position: 0 -32px;
-    left: 17px;
+    left: 8px;
     top: 10px;
     display: none;
 }
@@ -132,11 +133,21 @@ body {font:13px Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif; color:#333; 
 #next {
     background-position: 0 -64px;
     top: 10px;
-    left: 46px;
+    left: 32px;
 }
 
 #next:hover {
     background-position: 0 -80px;
+}
+
+#star {
+    background-position: 0 -96px;
+    top: 10px;
+    left: 56px;
+}
+
+#star:hover {
+    background-position: 0 -112px;
 }
 
 #volume-max,
