@@ -1,15 +1,21 @@
 {
+    "manifest_version": 2,
 	"name": "亦歌扩展",
 	"version": "1.4.2",
 	"description": "亦歌的Chrome插件，轻轻松松用亦歌",
-	"browser_action": {
-		"default_icon": "img/icon32-blue.png",
-		"popup": "minipane.html"
-	},
+	
 	"icons": {
 		"48": "img/icon48-red.png",
 		"128": "img/icon128-red.png"
 	},
+	
+	"background": { "page": "background_page.html" },
+	
+	"browser_action": {
+		"default_icon": "img/icon32-blue.png",
+		"popup": "minipane.html"
+	},
+    
     "content_scripts": [
 		{
 			"matches": ["http://1gapi.sinaapp.com/*"],
@@ -17,9 +23,9 @@
             "all_frames": true
 		}
 	],
+	
 	"permissions": [
 		"tabs",
 		"notifications"
-	],
-	"background_page": "background_page.html"
+	]
 }
