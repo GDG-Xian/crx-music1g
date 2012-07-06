@@ -18,8 +18,8 @@
     
     "content_scripts": [
 		{
-			"matches": ["http://1gapi.sinaapp.com/*"],
-			"js": ["js/commandproxy.js"],
+			"matches": ["http://music1g.sinaapp.com/commander"],
+			"js": ["js/contentscript.js"],
             "all_frames": true
 		}
 	],
