@@ -13,7 +13,7 @@
 	
 	"browser_action": {
 		"default_icon": "img/icon32-blue.png",
-		"popup": "minipane.html"
+		"default_popup": "minipane.html"
 	},
     
     "content_scripts": [
