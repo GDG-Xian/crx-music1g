@@ -2,6 +2,12 @@
 #contaner.lightblue {
     background: -webkit-gradient(linear,0% 0,0% 100%,from(#93b4dd),to(#5c83b6));
 }
+
+.lightblue #message {
+    background-color: #C3D9FF;
+    -webkit-box-shadow: 0 0 2px 2px #7AA2E5;
+}
+
 .lightblue #volume-bar {
     background: #273746;
 }
@@ -59,9 +65,20 @@
 }
 
 /* black */
+
 #container.black {
     background: #262e4d;
 }
+
+.black #message {
+    color: #BDBDBD;
+    background-color: #222530;
+    -webkit-box-shadow: 0 0 2px 2px #000000;
+}
+.black button.close {
+    color: #BDBDBD;
+}
+
 .black #volume-bar {
     background: #101320;
 }

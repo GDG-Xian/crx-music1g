@@ -5,35 +5,40 @@
         <link rel="stylesheet" type="text/css" href="css/minipane.css" />
         <link rel="stylesheet" type="text/css" href="css/minipane-theme.css" />
     </head>
-<body>
-    <div id="container"> <div id="controller"> <div id="play" title="播放"></div>
-        <div id="pause" title="暂停"></div>
-        <div id="next" title="下一曲"></div>
-        <div id="star" title="收藏"></div>
-        <div id="volume-max"></div>
-        <div id="volume-min"></div>
-        <div id="volume-bar"></div>
-        <div id="volume-thumb"></div>
-    </div>  
-    
-    <div id="fixedpane" title="显示固定面板"></div>
-        <div id="screen">
-            <div id="screen-ass"></div>
-            <div id="msg"></div>
-            <div id="msg2"></div>
-            <div id="progress">
-                <div id="progressbar">
-                    <div id="progressinner"></div>
-                </div>
-                <div id="current-time"></div>
-                <div id="total-time"></div>
+    <body>
+        <div id="container" class="lightblue">
+            <div id="message">
+                <button class="close">&times;</button>
+                <span></span>
             </div>
-        </div> 
-        <div id="container-ass"></div>
-    </div>
+            <div id="controller"> <div id="play" title="播放"></div>
+                <div id="pause" title="暂停"></div>
+                <div id="next" title="下一曲"></div>
+                <div id="star" title="收藏"></div>
+                <div id="volume-max"></div>
+                <div id="volume-min"></div>
+                <div id="volume-bar"></div>
+                <div id="volume-thumb"></div>
+            </div>  
 
-    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="js/helpers.js"></script>
-    <script type="text/javascript" src="js/minipane.js"></script>
-</body>
+            <div id="fixedpane" title="显示固定面板"></div>
+            <div id="screen">
+                <div id="screen-ass"></div>
+                <div id="msg"></div>
+                <div id="msg2"></div>
+                <div id="progress">
+                    <div id="progressbar">
+                        <div id="progressinner"></div>
+                    </div>
+                    <div id="current-time"></div>
+                    <div id="total-time"></div>
+                </div>
+            </div> 
+            <div id="container-ass"></div>
+        </div>
+
+        <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="js/helpers.js"></script>
+        <script type="text/javascript" src="js/minipane.js"></script>
+    </body>
 </html>

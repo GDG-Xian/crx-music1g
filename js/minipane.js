@@ -2,11 +2,25 @@
     var background = chrome.extension.getBackgroundPage();
     var player = background.player;
 
+    var savingSong = false;
+
     function getSongInfo(songInfo) {
         return fmt('%{name} - %{singer}', songInfo); 
     }
 
     $(function() {
+        var $message = $('#message');
+
+        $message.find('.close').click(function() {
+            $message.stop(true).fadeOut();
+        });
+
+        function showMessage(message, keep) {
+            $message.find('span').html(message);
+            $message.fadeIn();
+            keep || $message.delay(4000).fadeOut();
+        }
+
         $('#next').click(function() {
             player.command('next')
         });
@@ -27,6 +41,21 @@
             player.command('playPause');
             $(this).hide();
             $('#play').show();
+        });
+
+        $('#star').click(function() {
+            var currSongName = player.currentSongInfo.name;
+            player.command('saveCurrent');
+            savingSong = true;
+            showMessage(fmt('对"%{1}"操作进行中', currSongName), true);
+        });
+        
+        player.bind('message', function(data) {
+            // 收藏歌曲
+            if (savingSong && data.text.indexOf('收藏成功') != -1) {
+                showMessage(data.text);
+                savingSong = false;
+            }
         });
 
         player.bind('colorStyle', function(data) {
